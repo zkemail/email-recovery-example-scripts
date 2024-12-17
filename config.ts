@@ -14,6 +14,9 @@ if (!process.env.RELAYER_URL) {
 if (!process.env.OWNER_PRIVATE_KEY) {
   throw new Error("OWNER_PRIVATE_KEY does not exist");
 }
+if (!process.env.GUARDIAN_EMAIL) {
+  throw new Error("GUARDIAN_EMAIL does not exist");
+}
 if (!process.env.ACCOUNT_CODE) {
   throw new Error("ACCOUNT_CODE does not exist");
 }
@@ -38,7 +41,7 @@ type Config = {
 };
 
 const config: Config = {
-  bundlerUrl: `https://api.pimlico.io/v2/basesepolia/rpc?apikey=${process.env.PIMLICO_API_KEY}`,
+  bundlerUrl: `https://api.pimlico.io/v2/base-sepolia/rpc?apikey=${process.env.PIMLICO_API_KEY}`,
   rpcUrl: `https://base-sepolia.g.alchemy.com/v2/${process.env.ALCHEMY_API_KEY}`,
   relayerApiUrl: `${process.env.RELAYER_URL}`,
   ownerPrivateKey: `0x${process.env.OWNER_PRIVATE_KEY}`,
@@ -46,10 +49,10 @@ const config: Config = {
   accountCode: `${process.env.ACCOUNT_CODE}`,
   newOwner: `${process.env.NEW_OWNER}`,
   addresses: {
-    universalEmailRecoveryModule: "0xF78025F23420AE9B9EA177c70c0A3c871E936d22",
-    safe4337ModuleAddress: "0x75cf11467937ce3F2f357CE24ffc3DBF8fD5c226",
+    universalEmailRecoveryModule: "0xbc0655AAA90589655f708A907aC0aFc939dF8628", // new module with new verifer
+    safe4337ModuleAddress: "0x7579EE8307284F293B1927136486880611F20002", // what the pimlico docs recommend
     erc7569LaunchpadAddress: "0x7579011aB74c46090561ea277Ba79D510c6C00ff",
-    attestor: "0x000000333034E9f539ce08819E12c1b8Cb29084d",
+    attestor: "0x000000000069E2a187AEFFb852bF3cCdC95151B2",
   },
 };
 

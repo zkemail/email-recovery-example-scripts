@@ -29,6 +29,7 @@ import { baseSepolia } from "viem/chains";
 
 export const publicClient = createPublicClient({
   transport: http(config.rpcUrl),
+  chain: baseSepolia,
 });
 
 export const pimlicoClient: PimlicoClient = createPimlicoClient({
@@ -37,12 +38,15 @@ export const pimlicoClient: PimlicoClient = createPimlicoClient({
     address: entryPoint07Address,
     version: "0.7",
   },
+  chain: baseSepolia,
 });
 
 export const owner = privateKeyToAccount(config.ownerPrivateKey);
 
-export const safeAccount: SmartAccount<SafeSmartAccountImplementation> =
-  await toSafeSmartAccount({
+export const getSafeAccount = async (): Promise<
+  SmartAccount<SafeSmartAccountImplementation>
+> => {
+  return await toSafeSmartAccount({
     client: publicClient,
     owners: [owner],
     version: "1.4.1",
@@ -50,22 +54,20 @@ export const safeAccount: SmartAccount<SafeSmartAccountImplementation> =
       address: entryPoint07Address,
       version: "0.7",
     },
-    safe4337ModuleAddress: config.addresses.safe4337ModuleAddress,
-    erc7579LaunchpadAddress: config.addresses.erc7569LaunchpadAddress,
-    // TODO: uncomment when someone has attested
-    // attesters: [config.addresses.attestor], // This address belongs to Rhinestone. By designating them as attesters, you authorize that only modules explicitly approved by Rhinestone can be installed on your safe.
-    // attestersThreshold: 1,
+    safe4337ModuleAddress: "0x7579EE8307284F293B1927136486880611F20002",
+    erc7579LaunchpadAddress: "0x7579011aB74c46090561ea277Ba79D510c6C00ff",
+    attesters: ["0xA4C777199658a41688E9488c4EcbD7a2925Cc23A"], // mock attester
+    attestersThreshold: 1,
+    saltNonce: 10n,
   });
+};
 
-export const smartAccountClient: Client<
-  Transport,
-  Chain,
-  SmartAccount,
-  RpcSchema
-> &
-  Erc7579Actions<SmartAccount<SafeSmartAccountImplementation>> =
-  createSmartAccountClient({
-    account: safeAccount,
+export const getSmartAccountClient = async (): Promise<
+  Client<Transport, Chain, SmartAccount, RpcSchema> &
+    Erc7579Actions<SmartAccount<SafeSmartAccountImplementation>>
+> => {
+  return createSmartAccountClient({
+    account: await getSafeAccount(),
     chain: baseSepolia,
     bundlerTransport: http(config.bundlerUrl),
     paymaster: pimlicoClient,
@@ -75,3 +77,4 @@ export const smartAccountClient: Client<
       },
     },
   }).extend(erc7579Actions());
+};

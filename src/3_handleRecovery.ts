@@ -1,7 +1,7 @@
 import axios from "axios";
 import { universalEmailRecoveryModuleAbi } from "../abi/UniversalEmailRecoveryModule.ts";
 import { HandleRecoveryResponseSchema } from "../types.ts";
-import { owner, publicClient, safeAccount } from "./helpers/clients.ts";
+import { getSafeAccount, owner, publicClient } from "./helpers/clients.ts";
 import config from "../config.ts";
 import {
   encodeAbiParameters,
@@ -14,6 +14,7 @@ import { getPreviousOwnerInLinkedList } from "./helpers/getPreviousOwnerInLinked
 import { safeAbi } from "../abi/Safe.ts";
 
 const handleRecovery = async () => {
+  const safeAccount = await getSafeAccount();
   const safeOwners = await publicClient.readContract({
     abi: safeAbi,
     address: safeAccount.address,

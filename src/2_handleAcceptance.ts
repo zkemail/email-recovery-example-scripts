@@ -1,10 +1,12 @@
 import axios from "axios";
 import { universalEmailRecoveryModuleAbi } from "../abi/UniversalEmailRecoveryModule.ts";
 import { HandleAcceptanceResponseSchema } from "../types.ts";
-import { publicClient, safeAccount } from "./helpers/clients.ts";
+import { getSafeAccount, publicClient } from "./helpers/clients.ts";
 import config from "../config.ts";
 
 const handleAcceptance = async () => {
+  const safeAccount = await getSafeAccount();
+
   const acceptanceCommandTemplates = await publicClient.readContract({
     abi: universalEmailRecoveryModuleAbi,
     address: config.addresses.universalEmailRecoveryModule,
@@ -12,7 +14,7 @@ const handleAcceptance = async () => {
     args: [],
   });
 
-  const templateIdx = 1;
+  const templateIdx = 0;
   const handleAcceptanceCommand = acceptanceCommandTemplates[0]
     ?.join()
     .replaceAll(",", " ")
@@ -25,13 +27,15 @@ const handleAcceptance = async () => {
     data: {
       controller_eth_addr: config.addresses.universalEmailRecoveryModule,
       guardian_email_addr: config.guardianEmail,
-      account_code: config.accountCode as `0x${string}`,
+      account_code: config.accountCode.slice(2),
       template_idx: templateIdx,
       command: handleAcceptanceCommand,
     },
   });
-  const { requestId: handleAcceptanceRequestId } =
-    HandleAcceptanceResponseSchema.parse(handleAcceptanceResponse.data);
+
+  console.log("REQUEST STATUS", handleAcceptanceResponse.status);
+  // const { requestId: handleAcceptanceRequestId } =
+  //   HandleAcceptanceResponseSchema.parse(handleAcceptanceResponse.data);
 };
 
 handleAcceptance().catch((error) => {

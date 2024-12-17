@@ -8,10 +8,12 @@ import {
 import { CompleteRecoveryResponseSchema } from "../types.ts";
 import config from "../config.ts";
 import { safeAbi } from "../abi/Safe.ts";
-import { publicClient, safeAccount, owner } from "./helpers/clients.ts";
+import { publicClient, owner, getSafeAccount } from "./helpers/clients.ts";
 import { getPreviousOwnerInLinkedList } from "./helpers/getPreviousOwnerInLinkedList.ts";
 
 const completeRecovery = async () => {
+  const safeAccount = await getSafeAccount();
+
   const safeOwners = await publicClient.readContract({
     abi: safeAbi,
     address: safeAccount.address,
