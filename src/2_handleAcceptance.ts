@@ -27,7 +27,7 @@ const handleAcceptance = async () => {
     data: {
       controller_eth_addr: config.addresses.universalEmailRecoveryModule,
       guardian_email_addr: config.guardianEmail,
-      account_code: config.accountCode.slice(2),
+      account_code: config.accountCode,
       template_idx: templateIdx,
       command: handleAcceptanceCommand,
     },
@@ -40,5 +40,5 @@ const handleAcceptance = async () => {
 
 handleAcceptance().catch((error) => {
   console.error(error);
-  process.exitCode = 1;
+  process.exit(1);
 });

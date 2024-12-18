@@ -41,7 +41,7 @@ const handleRecovery = async () => {
     [safeAccount.address, recoveryCallData]
   );
 
-  const templateIdx = 1;
+  const templateIdx = 0;
   const recoveryCommandTemplates = await publicClient.readContract({
     abi: universalEmailRecoveryModuleAbi,
     address: config.addresses.universalEmailRecoveryModule,
@@ -69,11 +69,12 @@ const handleRecovery = async () => {
       command: processRecoveryCommand,
     },
   });
-  const { requestId: handleRecoveryRequestId } =
-    HandleRecoveryResponseSchema.parse(handleRecoveryResponse.data);
+  console.log("REQUEST STATUS", handleRecoveryResponse.status);
+  // const { requestId: handleRecoveryRequestId } =
+  //   HandleRecoveryResponseSchema.parse(handleRecoveryResponse.data);
 };
 
 handleRecovery().catch((error) => {
   console.error(error);
-  process.exitCode = 1;
+  process.exit(1);
 });

@@ -1,12 +1,11 @@
 import axios from "axios";
-import { type Hex } from "viem";
 import { universalEmailRecoveryModuleAbi } from "../../abi/UniversalEmailRecoveryModule.ts";
 import { GetAccountSaltResponseSchema } from "../../types.ts";
 import config from "../../config.ts";
 import { publicClient, getSafeAccount } from "./clients.ts";
 
 export const computeGuardianAddress = async (
-  accountCode: Hex,
+  accountCode: any,
   guardianEmail: string
 ) => {
   const safeAccount = await getSafeAccount();

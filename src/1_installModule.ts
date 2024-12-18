@@ -22,7 +22,7 @@ import { privateKeyToAccount, generatePrivateKey } from "viem/accounts";
 const installModule = async () => {
   // Compute guardian address
   const guardianAddress = await computeGuardianAddress(
-    config.accountCode as `0x${string}`,
+    config.accountCode as any,
     config.guardianEmail
   );
   console.log("guardianAddress", guardianAddress);
@@ -89,7 +89,7 @@ const installModule = async () => {
   const guardians = [guardianAddress];
   const guardianWeights = [1n];
   const threshold = 1n;
-  const delay = 60n * 60n * 6n; // 6 hours in seconds
+  const delay = 0n; // 0 seconds
   const expiry = 2n * 7n * 24n * 60n * 60n; // 2 weeks in seconds
 
   const moduleData = encodeAbiParameters(

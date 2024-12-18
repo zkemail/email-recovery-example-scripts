@@ -14,9 +14,12 @@ export const getPreviousOwnerInLinkedList = (
     }
   }
 
-  const previousOwnerInLinkedList = allOwners[oldOwnerIndex - 1];
+  let previousOwnerInLinkedList = allOwners[oldOwnerIndex - 1];
   if (previousOwnerInLinkedList === undefined) {
-    throw new Error("previousOwnerInLinkedList is undefined");
+    previousOwnerInLinkedList = "0x0000000000000000000000000000000000000000";
+    if (oldOwnerIndex !== 0) {
+      throw new Error("previousOwnerInLinkedList is undefined");
+    }
   }
 
   const sentinelOwner: Address = "0x0000000000000000000000000000000000000001";

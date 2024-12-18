@@ -44,15 +44,16 @@ const completeRecovery = async () => {
     method: "POST",
     url: `${config.relayerApiUrl}/completeRequest`,
     data: {
-      controller_eth_addr: config.addresses.universalEmailRecoveryModule,
       account_eth_addr: safeAccount.address,
+      controller_eth_addr: config.addresses.universalEmailRecoveryModule,
       complete_calldata: recoveryData,
     },
   });
-  CompleteRecoveryResponseSchema.parse(completeRecoveryResponse.data);
+  console.log("REQUEST STATUS", completeRecoveryResponse.status);
+  // CompleteRecoveryResponseSchema.parse(completeRecoveryResponse.data);
 };
 
 completeRecovery().catch((error) => {
   console.error(error);
-  process.exitCode = 1;
+  process.exit(1);
 });

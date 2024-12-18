@@ -49,8 +49,8 @@ const config: Config = {
   accountCode: `${process.env.ACCOUNT_CODE}`,
   newOwner: `${process.env.NEW_OWNER}`,
   addresses: {
-    universalEmailRecoveryModule: "0xbc0655AAA90589655f708A907aC0aFc939dF8628", // new module with new verifer
-    safe4337ModuleAddress: "0x7579EE8307284F293B1927136486880611F20002", // what the pimlico docs recommend
+    universalEmailRecoveryModule: "0x72FbA28445187A0a95D2d463e5eab385689F3648",
+    safe4337ModuleAddress: "0x7579EE8307284F293B1927136486880611F20002",
     erc7569LaunchpadAddress: "0x7579011aB74c46090561ea277Ba79D510c6C00ff",
     attestor: "0x000000000069E2a187AEFFb852bF3cCdC95151B2",
   },

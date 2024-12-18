@@ -4,6 +4,12 @@
   "main": "index.ts",
   "license": "MIT",
   "type": "module",
+  "scripts": {
+    "install-module": "tsx src/1_installModule.ts",
+    "handle-acceptance": "tsx src/2_handleAcceptance.ts",
+    "handle-recovery": "tsx src/3_handleRecovery.ts",
+    "complete-recovery": "tsx src/4_completeRecovery.ts"
+  },
   "dependencies": {
     "axios": "^1.7.7",
     "circomlibjs": "^0.1.7",

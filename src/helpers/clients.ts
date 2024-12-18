@@ -58,7 +58,7 @@ export const getSafeAccount = async (): Promise<
     erc7579LaunchpadAddress: "0x7579011aB74c46090561ea277Ba79D510c6C00ff",
     attesters: ["0xA4C777199658a41688E9488c4EcbD7a2925Cc23A"], // mock attester
     attestersThreshold: 1,
-    saltNonce: 10n,
+    saltNonce: 16n,
   });
 };
 
