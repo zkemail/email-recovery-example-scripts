@@ -1,5 +1,6 @@
 import type { Address } from "viem";
 
+/** Helper function to get the previous owner in the Safe account owners linked list */
 export const getPreviousOwnerInLinkedList = (
   oldOwner: Address,
   allOwners: readonly Address[]
@@ -16,6 +17,7 @@ export const getPreviousOwnerInLinkedList = (
 
   let previousOwnerInLinkedList = allOwners[oldOwnerIndex - 1];
   if (previousOwnerInLinkedList === undefined) {
+    // It's possible that the previous owner is undefined, setting it to an empty address here so typescript doesn't complain
     previousOwnerInLinkedList = "0x0000000000000000000000000000000000000000";
     if (oldOwnerIndex !== 0) {
       throw new Error("previousOwnerInLinkedList is undefined");

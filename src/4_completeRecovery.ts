@@ -3,12 +3,11 @@ import {
   encodeAbiParameters,
   encodeFunctionData,
   parseAbiParameters,
-  type Address,
 } from "viem";
-import { CompleteRecoveryResponseSchema } from "../types.ts";
+import { CompleteRecoveryResponseSchema } from "./types.ts";
 import config from "../config.ts";
 import { safeAbi } from "../abi/Safe.ts";
-import { publicClient, owner, getSafeAccount } from "./helpers/clients.ts";
+import { publicClient, owner, getSafeAccount } from "./clients.ts";
 import { getPreviousOwnerInLinkedList } from "./helpers/getPreviousOwnerInLinkedList.ts";
 
 const completeRecovery = async () => {
@@ -31,8 +30,7 @@ const completeRecovery = async () => {
   const recoveryCallData = encodeFunctionData({
     abi: safeAbi,
     functionName: "swapOwner",
-    // FIXME: "as"
-    args: [previousOwnerInLinkedList, oldOwner, newOwner as Address],
+    args: [previousOwnerInLinkedList, oldOwner, newOwner],
   });
 
   const recoveryData = encodeAbiParameters(
@@ -49,8 +47,14 @@ const completeRecovery = async () => {
       complete_calldata: recoveryData,
     },
   });
-  console.log("REQUEST STATUS", completeRecoveryResponse.status);
-  // CompleteRecoveryResponseSchema.parse(completeRecoveryResponse.data);
+
+  console.log("Request status:", completeRecoveryResponse.status);
+  if (completeRecoveryResponse.status === 200) {
+    const completeRecoveryResponseData = CompleteRecoveryResponseSchema.parse(
+      completeRecoveryResponse.data
+    );
+    console.log("Result:", completeRecoveryResponseData);
+  }
 };
 
 completeRecovery().catch((error) => {

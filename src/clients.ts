@@ -14,7 +14,7 @@ import {
   entryPoint07Address,
   type SmartAccount,
 } from "viem/account-abstraction";
-import config from "../../config.ts";
+import config from "../config.ts";
 import {
   toSafeSmartAccount,
   type SafeSmartAccountImplementation,
@@ -54,11 +54,11 @@ export const getSafeAccount = async (): Promise<
       address: entryPoint07Address,
       version: "0.7",
     },
-    safe4337ModuleAddress: "0x7579EE8307284F293B1927136486880611F20002",
-    erc7579LaunchpadAddress: "0x7579011aB74c46090561ea277Ba79D510c6C00ff",
-    attesters: ["0xA4C777199658a41688E9488c4EcbD7a2925Cc23A"], // mock attester
+    safe4337ModuleAddress: config.addresses.safe4337ModuleAddress,
+    erc7579LaunchpadAddress: config.addresses.erc7569LaunchpadAddress,
+    attesters: [config.addresses.attestor],
     attestersThreshold: 1,
-    saltNonce: 16n,
+    saltNonce: 29n,
   });
 };
 

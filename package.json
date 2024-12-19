@@ -8,7 +8,9 @@
     "install-module": "tsx src/1_installModule.ts",
     "handle-acceptance": "tsx src/2_handleAcceptance.ts",
     "handle-recovery": "tsx src/3_handleRecovery.ts",
-    "complete-recovery": "tsx src/4_completeRecovery.ts"
+    "complete-recovery": "tsx src/4_completeRecovery.ts",
+    "generate-account-code": "tsx src/helpers/generateAccountCode.ts",
+    "generate-address": "tsx src/helpers/generateNewAccountAddress.ts"
   },
   "dependencies": {
     "axios": "^1.7.7",

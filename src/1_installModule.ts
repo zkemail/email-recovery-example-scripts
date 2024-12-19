@@ -1,87 +1,38 @@
-import {
-  createWalletClient,
-  encodeAbiParameters,
-  http,
-  parseEther,
-  publicActions,
-  toFunctionSelector,
-  toHex,
-} from "viem";
+import { encodeAbiParameters, toFunctionSelector, toHex } from "viem";
 import config from "../config.ts";
 import {
   getSmartAccountClient,
   pimlicoClient,
   getSafeAccount,
   publicClient,
-  owner,
-} from "./helpers/clients.ts";
+} from "./clients.ts";
 import { computeGuardianAddress } from "./helpers/computeGuardianAddress.ts";
-import { baseSepolia } from "viem/chains";
-import { privateKeyToAccount, generatePrivateKey } from "viem/accounts";
 
 const installModule = async () => {
-  // Compute guardian address
   const guardianAddress = await computeGuardianAddress(
-    config.accountCode as any,
+    config.accountCode,
     config.guardianEmail
   );
-  console.log("guardianAddress", guardianAddress);
 
   const safeAccount = await getSafeAccount();
   const smartAccountClient = await getSmartAccountClient();
 
-  const walletClient = createWalletClient({
-    account: owner,
-    chain: baseSepolia,
-    transport: http(config.rpcUrl),
-  }).extend(publicActions);
-
-  await walletClient.sendTransaction({
-    to: safeAccount.address,
-    value: parseEther("0.0003"),
-  });
-  console.log("sent money to safe");
-
-  const senderBalance = await publicClient.getBalance({
-    address: safeAccount.address,
-  });
-
-  console.log("balance", senderBalance);
-
   const bytecode = await publicClient.getCode({
     address: safeAccount.address,
   });
-  console.log("bytecode before tx", bytecode);
-
-  // txHash
-  const randomAccount = privateKeyToAccount(generatePrivateKey()).address;
-  console.log("About to try send");
-  await smartAccountClient.sendTransaction({
-    to: randomAccount,
-    value: parseEther("0.00001"),
-  });
-
-  const isModuleInstalled = await smartAccountClient.isModuleInstalled({
-    address: config.addresses.universalEmailRecoveryModule,
-    type: "executor",
-    context: toHex(0),
-  });
-  console.log("isModuleInstalled", isModuleInstalled);
-
-  if (isModuleInstalled) {
-    console.log("Module already installed");
-    return;
+  if (bytecode) {
+    const isModuleInstalled = await smartAccountClient.isModuleInstalled({
+      address: config.addresses.universalEmailRecoveryModule,
+      type: "executor",
+      context: toHex(0),
+    });
+    if (isModuleInstalled) {
+      console.log("Module already installed");
+      return;
+    }
   }
 
-  const randomAccountBalance = await publicClient.getBalance({
-    address: randomAccount,
-  });
-  if (randomAccountBalance === 0n) {
-    throw new Error("Failed to send transaction");
-  }
-
-  const account = safeAccount.address;
-  console.log("account", account);
+  const validator = safeAccount.address;
   const isInstalledContext = toHex(0);
   const functionSelector = toFunctionSelector(
     "swapOwner(address,address,address)"
@@ -104,7 +55,7 @@ const installModule = async () => {
       { name: "threshold", type: "uint256" },
     ],
     [
-      safeAccount.address,
+      validator,
       isInstalledContext,
       functionSelector,
       guardians,
@@ -113,16 +64,6 @@ const installModule = async () => {
       delay,
       expiry,
     ]
-  );
-  console.log(
-    account,
-    isInstalledContext,
-    functionSelector,
-    guardians,
-    guardianWeights,
-    threshold,
-    delay,
-    expiry
   );
 
   const userOpHash = await smartAccountClient.installModule({

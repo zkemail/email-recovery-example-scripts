@@ -1,14 +1,13 @@
 import axios from "axios";
 import { universalEmailRecoveryModuleAbi } from "../abi/UniversalEmailRecoveryModule.ts";
-import { HandleRecoveryResponseSchema } from "../types.ts";
-import { getSafeAccount, owner, publicClient } from "./helpers/clients.ts";
+import { HandleRecoveryResponseSchema } from "./types.ts";
+import { getSafeAccount, owner, publicClient } from "./clients.ts";
 import config from "../config.ts";
 import {
   encodeAbiParameters,
   encodeFunctionData,
   keccak256,
   parseAbiParameters,
-  type Address,
 } from "viem";
 import { getPreviousOwnerInLinkedList } from "./helpers/getPreviousOwnerInLinkedList.ts";
 import { safeAbi } from "../abi/Safe.ts";
@@ -32,8 +31,7 @@ const handleRecovery = async () => {
   const recoveryCallData = encodeFunctionData({
     abi: safeAbi,
     functionName: "swapOwner",
-    // FIXME: "as"
-    args: [previousOwnerInLinkedList, oldOwner, newOwner as Address],
+    args: [previousOwnerInLinkedList, oldOwner, newOwner],
   });
 
   const recoveryData = encodeAbiParameters(
@@ -57,7 +55,6 @@ const handleRecovery = async () => {
     .replaceAll(",", " ")
     .replace("{ethAddr}", safeAccountAddress)
     .replace("{string}", recoveryDataHash);
-  console.log("processRecoveryCommand", processRecoveryCommand);
 
   const handleRecoveryResponse = await axios({
     method: "POST",
@@ -69,9 +66,13 @@ const handleRecovery = async () => {
       command: processRecoveryCommand,
     },
   });
-  console.log("REQUEST STATUS", handleRecoveryResponse.status);
-  // const { requestId: handleRecoveryRequestId } =
-  //   HandleRecoveryResponseSchema.parse(handleRecoveryResponse.data);
+
+  console.log("Request status:", handleRecoveryResponse.status);
+  if (handleRecoveryResponse.status === 200) {
+    const { request_id: handleRecoveryRequestId } =
+      HandleRecoveryResponseSchema.parse(handleRecoveryResponse.data);
+    console.log("Request ID:", handleRecoveryRequestId);
+  }
 };
 
 handleRecovery().catch((error) => {
