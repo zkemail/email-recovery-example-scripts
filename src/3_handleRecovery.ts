@@ -75,7 +75,11 @@ const handleRecovery = async () => {
   }
 };
 
-handleRecovery().catch((error) => {
-  console.error(error);
-  process.exit(1);
-});
+handleRecovery()
+  .then(() => {
+    process.exit(0);
+  })
+  .catch((error) => {
+    console.error(error);
+    process.exit(1);
+  });

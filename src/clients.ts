@@ -58,7 +58,7 @@ export const getSafeAccount = async (): Promise<
     erc7579LaunchpadAddress: config.addresses.erc7569LaunchpadAddress,
     attesters: [config.addresses.attestor],
     attestersThreshold: 1,
-    saltNonce: 29n,
+    saltNonce: config.saltNonce,
   });
 };
 
