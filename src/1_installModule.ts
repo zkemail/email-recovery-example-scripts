@@ -40,7 +40,7 @@ const installModule = async () => {
   const guardians = [guardianAddress];
   const guardianWeights = [1n];
   const threshold = 1n;
-  const delay = 0n; // 0 seconds
+  const delay = 6n * 60n * 60n; // 6 hours
   const expiry = 2n * 7n * 24n * 60n * 60n; // 2 weeks in seconds
 
   const moduleData = encodeAbiParameters(

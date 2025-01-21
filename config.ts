@@ -60,7 +60,7 @@ const config: Config = {
   newOwner: getAddress(process.env.NEW_OWNER),
   saltNonce: BigInt(process.env.SAFE_SALT_NONCE),
   addresses: {
-    universalEmailRecoveryModule: "0x636632FA22052d2a4Fb6e3Bab84551B620b9C1F9", // Base Sepolia
+    universalEmailRecoveryModule: "0x636632FA22052d2a4Fb6e3Bab84551B620b9C1F9",
     safe4337ModuleAddress: "0x7579EE8307284F293B1927136486880611F20002",
     erc7569LaunchpadAddress: "0x7579011aB74c46090561ea277Ba79D510c6C00ff",
     attestor: "0xA4C777199658a41688E9488c4EcbD7a2925Cc23A",
