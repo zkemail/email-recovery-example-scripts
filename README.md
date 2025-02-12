@@ -68,10 +68,10 @@ Then there are 2 helpers:
 yarn generate-account-code
 ```
 
-### Generate a new owner address
+### Generate a new owner account
 
-`generateNewAccountAddress.ts` - Generates a fresh Ethereum address. Can be used to generate a new owner address for the Safe account.
+`generateNewAccount.ts` - Generates a fresh account. Can be used to generate a new owner account for the Safe account.
 
 ```bash
-yarn generate-address
+yarn generate-account
 ```

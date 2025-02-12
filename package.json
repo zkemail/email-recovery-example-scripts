@@ -10,7 +10,7 @@
     "handle-recovery": "tsx src/3_handleRecovery.ts",
     "complete-recovery": "tsx src/4_completeRecovery.ts",
     "generate-account-code": "tsx src/helpers/generateAccountCode.ts",
-    "generate-address": "tsx src/helpers/generateNewAccountAddress.ts"
+    "generate-account": "tsx src/helpers/generateNewAccount.ts"
   },
   "dependencies": {
     "axios": "^1.7.7",
