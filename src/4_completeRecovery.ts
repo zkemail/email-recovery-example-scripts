@@ -9,9 +9,30 @@ import config from "../config.ts";
 import { safeAbi } from "../abi/Safe.ts";
 import { publicClient, owner, getSafeAccount } from "./clients.ts";
 import { getPreviousOwnerInLinkedList } from "./helpers/getPreviousOwnerInLinkedList.ts";
+import { universalEmailRecoveryModuleAbi } from "../abi/UniversalEmailRecoveryModule.ts";
 
 const completeRecovery = async () => {
   const safeAccount = await getSafeAccount();
+
+  const recoveryRequest = await publicClient.readContract({
+    abi: universalEmailRecoveryModuleAbi,
+    address: config.addresses.universalEmailRecoveryModule,
+    functionName: "getRecoveryRequest",
+    args: [safeAccount.address],
+  });
+
+  const block = await publicClient.getBlock();
+  console.log(recoveryRequest);
+  if (recoveryRequest.executeAfter == 0n) {
+    throw new Error("Recovery request for account not found");
+  }
+
+  if (recoveryRequest.executeAfter < block.timestamp) {
+    const timeLeft = recoveryRequest.executeAfter - block.timestamp;
+    throw new Error(
+      `Recovery delay has not passed. You have ${timeLeft} seconds left.`
+    );
+  }
 
   const safeOwners = await publicClient.readContract({
     abi: safeAbi,
