@@ -1,21 +1,22 @@
 import { encodeAbiParameters, toFunctionSelector, toHex } from "viem";
-import config from "../config.ts";
+import config from "../../config.ts";
 import {
   getSmartAccountClient,
   pimlicoClient,
   getSafeAccount,
   publicClient,
 } from "./clients.ts";
-import { computeGuardianAddress } from "./helpers/computeGuardianAddress.ts";
+import { computeGuardianAddress } from "../helpers/computeGuardianAddress.ts";
 
 const installModule = async () => {
+  const safeAccount = await getSafeAccount();
+  const smartAccountClient = await getSmartAccountClient();
+
   const guardianAddress = await computeGuardianAddress(
+    safeAccount.address,
     config.accountCode,
     config.guardianEmail
   );
-
-  const safeAccount = await getSafeAccount();
-  const smartAccountClient = await getSmartAccountClient();
 
   const bytecode = await publicClient.getCode({
     address: safeAccount.address,

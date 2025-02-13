@@ -4,12 +4,12 @@ import {
   encodeFunctionData,
   parseAbiParameters,
 } from "viem";
-import { CompleteRecoveryResponseSchema } from "./types.ts";
-import config from "../config.ts";
-import { safeAbi } from "../abi/Safe.ts";
+import { CompleteRecoveryResponseSchema } from "../types.ts";
+import config from "../../config.ts";
+import { safeAbi } from "../../abi/Safe.ts";
 import { publicClient, owner, getSafeAccount } from "./clients.ts";
-import { getPreviousOwnerInLinkedList } from "./helpers/getPreviousOwnerInLinkedList.ts";
-import { universalEmailRecoveryModuleAbi } from "../abi/UniversalEmailRecoveryModule.ts";
+import { getPreviousOwnerInLinkedList } from "../helpers/getPreviousOwnerInLinkedList.ts";
+import { universalEmailRecoveryModuleAbi } from "../../abi/UniversalEmailRecoveryModule.ts";
 
 const completeRecovery = async () => {
   const safeAccount = await getSafeAccount();
@@ -22,12 +22,11 @@ const completeRecovery = async () => {
   });
 
   const block = await publicClient.getBlock();
-  console.log(recoveryRequest);
   if (recoveryRequest.executeAfter == 0n) {
     throw new Error("Recovery request for account not found");
   }
 
-  if (recoveryRequest.executeAfter < block.timestamp) {
+  if (block.timestamp < recoveryRequest.executeAfter) {
     const timeLeft = recoveryRequest.executeAfter - block.timestamp;
     throw new Error(
       `Recovery delay has not passed. You have ${timeLeft} seconds left.`

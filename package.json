@@ -5,14 +5,19 @@
   "license": "MIT",
   "type": "module",
   "scripts": {
-    "install-module": "tsx src/1_installModule.ts",
-    "handle-acceptance": "tsx src/2_handleAcceptance.ts",
-    "handle-recovery": "tsx src/3_handleRecovery.ts",
-    "complete-recovery": "tsx src/4_completeRecovery.ts",
+    "permissionless-install-module": "tsx src/permissionless/1_installModule.ts",
+    "permissionless-handle-acceptance": "tsx src/permissionless/2_handleAcceptance.ts",
+    "permissionless-handle-recovery": "tsx src/permissionless/3_handleRecovery.ts",
+    "permissionless-complete-recovery": "tsx src/permissionless/4_completeRecovery.ts",
+    "module-sdk-install-module": "tsx src/module-sdk/1_installModule.ts",
+    "module-sdk-handle-acceptance": "tsx src/module-sdk/2_handleAcceptance.ts",
+    "module-sdk-handle-recovery": "tsx src/module-sdk/3_handleRecovery.ts",
+    "module-sdk-complete-recovery": "tsx src/module-sdk/4_completeRecovery.ts",
     "generate-account-code": "tsx src/helpers/generateAccountCode.ts",
     "generate-account": "tsx src/helpers/generateNewAccount.ts"
   },
   "dependencies": {
+    "@rhinestone/module-sdk": "^0.2.4",
     "axios": "^1.7.7",
     "circomlibjs": "^0.1.7",
     "dotenv": "^16.4.5",

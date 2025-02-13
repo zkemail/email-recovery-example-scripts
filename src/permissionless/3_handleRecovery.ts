@@ -1,16 +1,16 @@
 import axios from "axios";
-import { universalEmailRecoveryModuleAbi } from "../abi/UniversalEmailRecoveryModule.ts";
-import { HandleRecoveryResponseSchema } from "./types.ts";
+import { universalEmailRecoveryModuleAbi } from "../../abi/UniversalEmailRecoveryModule.ts";
+import { HandleRecoveryResponseSchema } from "../types.ts";
 import { getSafeAccount, owner, publicClient } from "./clients.ts";
-import config from "../config.ts";
+import config from "../../config.ts";
 import {
   encodeAbiParameters,
   encodeFunctionData,
   keccak256,
   parseAbiParameters,
 } from "viem";
-import { getPreviousOwnerInLinkedList } from "./helpers/getPreviousOwnerInLinkedList.ts";
-import { safeAbi } from "../abi/Safe.ts";
+import { getPreviousOwnerInLinkedList } from "../helpers/getPreviousOwnerInLinkedList.ts";
+import { safeAbi } from "../../abi/Safe.ts";
 
 const handleRecovery = async () => {
   const safeAccount = await getSafeAccount();

@@ -1,8 +1,8 @@
 import axios from "axios";
-import { universalEmailRecoveryModuleAbi } from "../abi/UniversalEmailRecoveryModule.ts";
-import { HandleAcceptanceResponseSchema } from "./types.ts";
-import { getSafeAccount, publicClient } from "./clients.ts";
-import config from "../config.ts";
+import { universalEmailRecoveryModuleAbi } from "../../abi/UniversalEmailRecoveryModule.ts";
+import { HandleAcceptanceResponseSchema } from "../types.ts";
+import { getSafeAccount, publicClient } from "../permissionless/clients.ts";
+import config from "../../config.ts";
 
 const handleAcceptance = async () => {
   const safeAccount = await getSafeAccount();

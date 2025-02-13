@@ -14,7 +14,7 @@ import {
   entryPoint07Address,
   type SmartAccount,
 } from "viem/account-abstraction";
-import config from "../config.ts";
+import config from "../../config.ts";
 import {
   toSafeSmartAccount,
   type SafeSmartAccountImplementation,

@@ -2,15 +2,19 @@ import axios from "axios";
 import { universalEmailRecoveryModuleAbi } from "../../abi/UniversalEmailRecoveryModule.ts";
 import { GetAccountSaltResponseSchema } from "../types.ts";
 import config from "../../config.ts";
-import { publicClient, getSafeAccount } from "../clients.ts";
-import type { Hex } from "viem";
+import { createPublicClient, http, type Address, type Hex } from "viem";
+import { baseSepolia } from "viem/chains";
 
 /** Computes the guardian address for a given account code and guardian email */
 export const computeGuardianAddress = async (
+  account: Address,
   accountCode: Hex,
   guardianEmail: string
 ) => {
-  const safeAccount = await getSafeAccount();
+  const publicClient = createPublicClient({
+    transport: http(config.rpcUrl),
+    chain: baseSepolia,
+  });
 
   const getAccountSaltResponse = await axios({
     method: "POST",
@@ -29,6 +33,6 @@ export const computeGuardianAddress = async (
     abi: universalEmailRecoveryModuleAbi,
     address: config.addresses.universalEmailRecoveryModule,
     functionName: "computeEmailAuthAddress",
-    args: [safeAccount.address, guardianSalt],
+    args: [account, guardianSalt],
   });
 };
