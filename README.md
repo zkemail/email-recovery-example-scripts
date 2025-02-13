@@ -2,6 +2,8 @@
 
 This repository contains example scripts for the ZK Email Recovery Module used with a Safe account on Base Sepolia. There are 4 main scripts that should be run in order to complete the recovery module e2e flow.
 
+**You can either run the scripts via permissionless, or ModuleSDk.**
+
 ## Getting Started
 
 ```bash
@@ -25,7 +27,11 @@ _**Note**: If you need an account code or a fresh new owner address, run the hel
 `1_installModule.ts` - Deploys the Safe account and installs the module. This step only needs to be completed once and handles configuration such as guardians, number of guardians, threshold, etc.
 
 ```bash
-yarn install-module
+# Permissionless
+yarn permissionless-install-module
+
+# Module SDK
+yarn module-sdk-install-module
 ```
 
 ### Handle Acceptance
@@ -35,7 +41,11 @@ yarn install-module
 _**Note:** Once you run the handle acceptance script, your configured guardian will recieve an email which must be replied to with the single command "**Confirm**" to confirm their acceptance._
 
 ```bash
-yarn handle-acceptance
+# Permissionless
+yarn permissionless-handle-acceptance
+
+# Module SDK
+yarn module-sdk-handle-acceptance
 ```
 
 ### Handle Recovery
@@ -45,7 +55,11 @@ yarn handle-acceptance
 _**Note:** Once you run the handle recovery script, your configured guardian will recieve an email which must be replied to with the single command "**Confirm**" to confirm they approve the recovery request._
 
 ```bash
-yarn handle-recovery
+# Permissionless
+yarn permissionless-handle-recovery
+
+# Module SDK
+yarn module-sdk-handle-recovery
 ```
 
 ### Complete Recovery
@@ -53,7 +67,11 @@ yarn handle-recovery
 `4_completeRecovery.ts` - Complete recovery is the final step in the recovery process, it is at this stage where the Safe owner address is rotated. The reason it is separated from step 3 is that having a final confirmation allows developers to implement a timelock which is an important security feature to protect against malicious recovery attempts. An account owner can cancel a recovery request during the timelock period if they still possess their method of authentication. The timelock in these scripts is set to zero, so complete recovery can be called straight after handle recovery.
 
 ```bash
-yarn complete-recovery
+# Permissionless
+yarn permissionless-complete-recovery
+
+# Module SDK
+yarn module-sdk-complete-recovery
 ```
 
 ## Helper scripts
