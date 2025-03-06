@@ -17,6 +17,12 @@ if (!process.env.OWNER_PRIVATE_KEY) {
 if (!isHex(process.env.OWNER_PRIVATE_KEY)) {
   throw new Error("OWNER_PRIVATE_KEY is not a valid hex string");
 }
+if (!process.env.EOA_PRIVATE_KEY) {
+  throw new Error("EOA_PRIVATE_KEY does not exist");
+}
+if (!isHex(process.env.EOA_PRIVATE_KEY)) {
+  throw new Error("EOA_PRIVATE_KEY is not a valid hex string");
+}
 if (!process.env.GUARDIAN_EMAIL) {
   throw new Error("GUARDIAN_EMAIL does not exist");
 }
@@ -38,6 +44,7 @@ type Config = {
   rpcUrl: string;
   relayerApiUrl: string;
   ownerPrivateKey: `0x${string}`;
+  eoaPrivateKey: `0x${string}`;
   guardianEmail: string;
   accountCode: Hex;
   newOwner: Address;
@@ -45,16 +52,23 @@ type Config = {
   addresses: {
     universalEmailRecoveryModule: Address;
     safe4337ModuleAddress: Address;
+    safe7579AdaptorAddress: Address;
     erc7569LaunchpadAddress: Address;
     attestor: Address;
+    safeSingletonAddress: Address;
+    safeL2SingletonAddress: Address;
+    safeModuleSetupAddress: Address;
+    safeMultiSendAddress: Address;
+    rhinestoneAttestor: Address;
   };
 };
 
 const config: Config = {
-  bundlerUrl: `https://api.pimlico.io/v2/base-sepolia/rpc?apikey=${process.env.PIMLICO_API_KEY}`,
-  rpcUrl: `https://base-sepolia.g.alchemy.com/v2/${process.env.ALCHEMY_API_KEY}`,
+  bundlerUrl: `https://api.pimlico.io/v2/11155111/rpc?apikey=${process.env.PIMLICO_API_KEY}`,
+  rpcUrl: `https://ethereum-sepolia-rpc.publicnode.com`,
   relayerApiUrl: `${process.env.RELAYER_URL}`,
   ownerPrivateKey: process.env.OWNER_PRIVATE_KEY,
+  eoaPrivateKey: process.env.EOA_PRIVATE_KEY,
   guardianEmail: `${process.env.GUARDIAN_EMAIL}`,
   accountCode: `${process.env.ACCOUNT_CODE}`,
   newOwner: getAddress(process.env.NEW_OWNER),
@@ -62,8 +76,38 @@ const config: Config = {
   addresses: {
     universalEmailRecoveryModule: "0x636632FA22052d2a4Fb6e3Bab84551B620b9C1F9",
     safe4337ModuleAddress: "0x7579EE8307284F293B1927136486880611F20002",
+    safe7579AdaptorAddress: "0x7579EE8307284F293B1927136486880611F20002",
     erc7569LaunchpadAddress: "0x7579011aB74c46090561ea277Ba79D510c6C00ff",
     attestor: "0xA4C777199658a41688E9488c4EcbD7a2925Cc23A",
+    safeSingletonAddress: "0x41675c099f32341bf84bfc5382af534df5c7461a",
+    safeL2SingletonAddress: "0x29fcb43b46531bca003ddc8fcb67ffe91900c762",
+    safeModuleSetupAddress: "0x2dd68b007B46fBe91B9A7c3EDa5A7a1063cB5b47",
+    safeMultiSendAddress: "0x38869bf66a61cF6bDB996A6aE40D5853Fd43B526",
+    rhinestoneAttestor: "0xaed4d8baa80948d54d33de041513d30124e1ae3f",
+  },
+};
+
+const odysseyConfig: Config = {
+  bundlerUrl: `https://api.pimlico.io/v2/911867/rpc?apikey=${process.env.PIMLICO_API_KEY}`,
+  rpcUrl: `https://odyssey.ithaca.xyz`,
+  relayerApiUrl: `${process.env.RELAYER_URL}`,
+  ownerPrivateKey: process.env.OWNER_PRIVATE_KEY,
+  eoaPrivateKey: process.env.EOA_PRIVATE_KEY,
+  guardianEmail: `${process.env.GUARDIAN_EMAIL}`,
+  accountCode: `${process.env.ACCOUNT_CODE}`,
+  newOwner: getAddress(process.env.NEW_OWNER),
+  saltNonce: BigInt(process.env.SAFE_SALT_NONCE),
+  addresses: {
+    universalEmailRecoveryModule: "0x3692eb803f5fBaca90097d20F6cF4AC01aFc8847",
+    safe4337ModuleAddress: "0x75cf11467937ce3F2f357CE24ffc3DBF8fD5c226",
+    safe7579AdaptorAddress: "0x7579EE8307284F293B1927136486880611F20002",
+    erc7569LaunchpadAddress: "0x7579011aB74c46090561ea277Ba79D510c6C00ff",
+    attestor: "0xA4C777199658a41688E9488c4EcbD7a2925Cc23A",
+    safeSingletonAddress: "0x41675C099F32341bf84BFc5382aF534df5C7461a",
+    safeL2SingletonAddress: "0x29fcB43b46531BcA003ddC8FCB67FFE91900C762",
+    safeModuleSetupAddress: "0x2dd68b007B46fBe91B9A7c3EDa5A7a1063cB5b47",
+    safeMultiSendAddress: "0x38869bf66a61cF6bDB996A6aE40D5853Fd43B526",
+    rhinestoneAttestor: "0xaed4d8baa80948d54d33de041513d30124e1ae3f",
   },
 };
 

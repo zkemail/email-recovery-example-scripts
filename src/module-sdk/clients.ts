@@ -7,10 +7,12 @@ import {
   http,
   type Chain,
   type Client,
+  type PublicClient,
   type RpcSchema,
   type Transport,
 } from "viem";
 import {
+  createPaymasterClient,
   entryPoint07Address,
   type SmartAccount,
 } from "viem/account-abstraction";
@@ -25,12 +27,12 @@ import {
   erc7579Actions,
   type Erc7579Actions,
 } from "permissionless/actions/erc7579";
-import { baseSepolia } from "viem/chains";
+import { baseSepolia, odysseyTestnet, sepolia } from "viem/chains";
 import { getOwnableValidator } from "@rhinestone/module-sdk";
 
-export const publicClient = createPublicClient({
+export const publicClient: PublicClient = createPublicClient({
   transport: http(config.rpcUrl),
-  chain: baseSepolia,
+  chain: sepolia,
 });
 
 export const pimlicoClient: PimlicoClient = createPimlicoClient({
@@ -39,21 +41,24 @@ export const pimlicoClient: PimlicoClient = createPimlicoClient({
     address: entryPoint07Address,
     version: "0.7",
   },
-  chain: baseSepolia,
+  chain: sepolia,
 });
 
 export const owner = privateKeyToAccount(config.ownerPrivateKey);
-export const owner2 = config.newOwner;
+export const newOwner = config.newOwner;
 
-export const ownableValidator = getOwnableValidator({
-  owners: [owner.address, owner2],
-  threshold: 2,
-});
+// export const ownableValidator = getOwnableValidator({
+//   owners: [owner.address, newOwner],
+//   threshold: 2,
+// });
+
+const eoaAccount = privateKeyToAccount(config.eoaPrivateKey);
 
 export const getSafeAccount = async (): Promise<
   SmartAccount<SafeSmartAccountImplementation>
 > => {
   return await toSafeSmartAccount({
+    address: eoaAccount.address,
     client: publicClient,
     owners: [owner],
     version: "1.4.1",
@@ -61,17 +66,10 @@ export const getSafeAccount = async (): Promise<
       address: entryPoint07Address,
       version: "0.7",
     },
-    safe4337ModuleAddress: config.addresses.safe4337ModuleAddress,
+    safe4337ModuleAddress: config.addresses.safe7579AdaptorAddress,
     erc7579LaunchpadAddress: config.addresses.erc7569LaunchpadAddress,
-    attesters: [config.addresses.attestor],
-    attestersThreshold: 1,
-    saltNonce: config.saltNonce,
-    validators: [
-      {
-        address: ownableValidator.address,
-        context: ownableValidator.initData,
-      },
-    ],
+    // attesters: [config.addresses.rhinestoneAttestor],
+    // attestersThreshold: 1,
   });
 };
 
@@ -81,7 +79,7 @@ export const getSmartAccountClient = async (): Promise<
 > => {
   return createSmartAccountClient({
     account: await getSafeAccount(),
-    chain: baseSepolia,
+    chain: sepolia,
     bundlerTransport: http(config.bundlerUrl),
     paymaster: pimlicoClient,
     userOperation: {
