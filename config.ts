@@ -53,7 +53,7 @@ type Config = {
     universalEmailRecoveryModule: Address;
     safe4337ModuleAddress: Address;
     safe7579AdaptorAddress: Address;
-    erc7569LaunchpadAddress: Address;
+    erc7579LaunchpadAddress: Address;
     attestor: Address;
     safeSingletonAddress: Address;
     safeL2SingletonAddress: Address;
@@ -65,7 +65,7 @@ type Config = {
 
 const config: Config = {
   bundlerUrl: `https://api.pimlico.io/v2/11155111/rpc?apikey=${process.env.PIMLICO_API_KEY}`,
-  rpcUrl: `https://ethereum-sepolia-rpc.publicnode.com`,
+  rpcUrl: `https://eth-sepolia.g.alchemy.com/v2/${process.env.ALCHEMY_API_KEY}`,
   relayerApiUrl: `${process.env.RELAYER_URL}`,
   ownerPrivateKey: process.env.OWNER_PRIVATE_KEY,
   eoaPrivateKey: process.env.EOA_PRIVATE_KEY,
@@ -77,7 +77,7 @@ const config: Config = {
     universalEmailRecoveryModule: "0x636632FA22052d2a4Fb6e3Bab84551B620b9C1F9",
     safe4337ModuleAddress: "0x7579EE8307284F293B1927136486880611F20002",
     safe7579AdaptorAddress: "0x7579EE8307284F293B1927136486880611F20002",
-    erc7569LaunchpadAddress: "0x7579011aB74c46090561ea277Ba79D510c6C00ff",
+    erc7579LaunchpadAddress: "0x7579011aB74c46090561ea277Ba79D510c6C00ff",
     attestor: "0xA4C777199658a41688E9488c4EcbD7a2925Cc23A",
     safeSingletonAddress: "0x41675c099f32341bf84bfc5382af534df5c7461a",
     safeL2SingletonAddress: "0x29fcb43b46531bca003ddc8fcb67ffe91900c762",
@@ -101,7 +101,7 @@ const odysseyConfig: Config = {
     universalEmailRecoveryModule: "0x3692eb803f5fBaca90097d20F6cF4AC01aFc8847",
     safe4337ModuleAddress: "0x75cf11467937ce3F2f357CE24ffc3DBF8fD5c226",
     safe7579AdaptorAddress: "0x7579EE8307284F293B1927136486880611F20002",
-    erc7569LaunchpadAddress: "0x7579011aB74c46090561ea277Ba79D510c6C00ff",
+    erc7579LaunchpadAddress: "0x7579011aB74c46090561ea277Ba79D510c6C00ff",
     attestor: "0xA4C777199658a41688E9488c4EcbD7a2925Cc23A",
     safeSingletonAddress: "0x41675C099F32341bf84BFc5382aF534df5C7461a",
     safeL2SingletonAddress: "0x29fcB43b46531BcA003ddC8FCB67FFE91900C762",

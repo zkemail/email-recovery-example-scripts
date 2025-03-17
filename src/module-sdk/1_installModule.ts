@@ -3,7 +3,7 @@ import { getUniversalEmailRecoveryExecutor } from "@rhinestone/module-sdk";
 import {
   getSafeAccount,
   getSmartAccountClient,
-  // ownableValidator,
+  ownableValidator,
   pimlicoClient,
   publicClient,
 } from "./clients.ts";
@@ -36,17 +36,13 @@ const installModule = async () => {
     }
   }
 
-  // const validator = ownableValidator.address;
-  const validator = safeAccount.address;
+  const validator = ownableValidator.address;
+  const initialSelector = toFunctionSelector("setThreshold(uint256)");
   const isInstalledContext = toHex(0);
-  // const initialSelector = toFunctionSelector("setThreshold(uint256)");
-  const initialSelector = toFunctionSelector(
-    "swapOwner(address,address,address)"
-  );
   const guardians = [guardianAddress];
   const weights = [1n];
   const threshold = 1n;
-  const delay = 5n * 60n * 60n; // 6 hours
+  const delay = 6n * 60n * 60n; // 6 hours
   const expiry = 2n * 7n * 24n * 60n * 60n; // 2 weeks in seconds
 
   const emailRecovery = getUniversalEmailRecoveryExecutor({
@@ -61,8 +57,8 @@ const installModule = async () => {
     chainId: baseSepolia.id,
   });
 
-  // emailRecovery.address = config.addresses.universalEmailRecoveryModule;
-  // emailRecovery.module = config.addresses.universalEmailRecoveryModule;
+  emailRecovery.address = config.addresses.universalEmailRecoveryModule;
+  emailRecovery.module = config.addresses.universalEmailRecoveryModule;
 
   const data = emailRecovery.initData;
   console.log("data", data);

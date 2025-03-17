@@ -4,6 +4,7 @@ import {
 } from "permissionless/clients/pimlico";
 import {
   createPublicClient,
+  createWalletClient,
   http,
   type Chain,
   type Client,
@@ -29,6 +30,7 @@ import {
 } from "permissionless/actions/erc7579";
 import { baseSepolia, odysseyTestnet, sepolia } from "viem/chains";
 import { getOwnableValidator } from "@rhinestone/module-sdk";
+import { eip7702Actions } from "viem/experimental";
 
 export const publicClient: PublicClient = createPublicClient({
   transport: http(config.rpcUrl),
@@ -47,12 +49,18 @@ export const pimlicoClient: PimlicoClient = createPimlicoClient({
 export const owner = privateKeyToAccount(config.ownerPrivateKey);
 export const newOwner = config.newOwner;
 
-// export const ownableValidator = getOwnableValidator({
-//   owners: [owner.address, newOwner],
-//   threshold: 2,
-// });
+export const ownableValidator = getOwnableValidator({
+  owners: [owner.address, newOwner],
+  threshold: 2,
+});
 
-const eoaAccount = privateKeyToAccount(config.eoaPrivateKey);
+export const eoaAccount = privateKeyToAccount(config.eoaPrivateKey);
+
+export const walletClient = createWalletClient({
+  account: eoaAccount,
+  chain: sepolia,
+  transport: http(config.rpcUrl),
+}).extend(eip7702Actions());
 
 export const getSafeAccount = async (): Promise<
   SmartAccount<SafeSmartAccountImplementation>
@@ -67,9 +75,15 @@ export const getSafeAccount = async (): Promise<
       version: "0.7",
     },
     safe4337ModuleAddress: config.addresses.safe7579AdaptorAddress,
-    erc7579LaunchpadAddress: config.addresses.erc7569LaunchpadAddress,
-    // attesters: [config.addresses.rhinestoneAttestor],
-    // attestersThreshold: 1,
+    erc7579LaunchpadAddress: config.addresses.erc7579LaunchpadAddress,
+    attesters: [config.addresses.attestor],
+    attestersThreshold: 1,
+    validators: [
+      {
+        address: ownableValidator.address,
+        context: ownableValidator.initData,
+      },
+    ],
   });
 };
 
