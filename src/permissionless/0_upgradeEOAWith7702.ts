@@ -42,7 +42,7 @@ const upgradeEOAWith7702 = async () => {
     authorizationList: [authorization],
   });
 
-  console.log(`Submitted: https://odyssey-explorer.ithaca.xyz/tx/${txHash}`);
+  console.log(`Submitted: ${txHash}`);
 };
 
 upgradeEOAWith7702()

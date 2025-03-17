@@ -1,11 +1,14 @@
 import { zeroAddress } from "viem";
 import { safeAbi } from "../../abi/Safe.ts";
-import { getSafeLaunchpadSetupData } from "../helpers/getSafeLaunchpadSetupData.ts";
+import { getModuleSDKSafeLaunchpadSetupData } from "../helpers/getSafeLaunchpadSetupData.ts";
 import dotenv from "dotenv";
 import config from "../../config.ts";
-import { owner, eoaAccount, walletClient } from "./clients.ts";
-
-// import { ownableValidator } from "./clients.ts";
+import {
+  owner,
+  eoaAccount,
+  walletClient,
+  ownableValidator,
+} from "./clients.ts";
 dotenv.config();
 
 const upgradeEOAWith7702 = async () => {
@@ -17,7 +20,7 @@ const upgradeEOAWith7702 = async () => {
   const owners = [owner.address];
   const signerThreshold = 1n;
   const setupAddress = config.addresses.erc7579LaunchpadAddress;
-  const setupData = getSafeLaunchpadSetupData();
+  const setupData = getModuleSDKSafeLaunchpadSetupData(ownableValidator);
   const fallbackHandler = config.addresses.safe7579AdaptorAddress;
   const paymentToken = zeroAddress;
   const paymentValue = 0n;
@@ -39,7 +42,7 @@ const upgradeEOAWith7702 = async () => {
     ],
     authorizationList: [authorization],
   });
-  console.log(`Submitted: https://odyssey-explorer.ithaca.xyz/tx/${txHash}`);
+  console.log(`Submitted: ${txHash}`);
 };
 
 upgradeEOAWith7702()

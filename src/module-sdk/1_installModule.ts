@@ -37,8 +37,8 @@ const installModule = async () => {
   }
 
   const validator = ownableValidator.address;
-  const initialSelector = toFunctionSelector("setThreshold(uint256)");
   const isInstalledContext = toHex(0);
+  const initialSelector = toFunctionSelector("setThreshold(uint256)");
   const guardians = [guardianAddress];
   const weights = [1n];
   const threshold = 1n;
@@ -60,12 +60,7 @@ const installModule = async () => {
   emailRecovery.address = config.addresses.universalEmailRecoveryModule;
   emailRecovery.module = config.addresses.universalEmailRecoveryModule;
 
-  const data = emailRecovery.initData;
-  console.log("data", data);
-
   const userOpHash = await smartAccountClient.installModule(emailRecovery);
-  console.log(userOpHash);
-
   console.log("userOpHash", userOpHash);
 
   const receipt = await pimlicoClient.waitForUserOperationReceipt({

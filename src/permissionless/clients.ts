@@ -28,7 +28,7 @@ import {
   erc7579Actions,
   type Erc7579Actions,
 } from "permissionless/actions/erc7579";
-import { baseSepolia, odysseyTestnet, sepolia } from "viem/chains";
+import { sepolia } from "viem/chains";
 import { eip7702Actions } from "viem/experimental";
 
 export const publicClient: PublicClient = createPublicClient({
