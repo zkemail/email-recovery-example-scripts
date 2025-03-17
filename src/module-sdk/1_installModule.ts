@@ -57,6 +57,9 @@ const installModule = async () => {
     chainId: baseSepolia.id,
   });
 
+  emailRecovery.address = config.addresses.universalEmailRecoveryModule;
+  emailRecovery.module = config.addresses.universalEmailRecoveryModule;
+
   const userOpHash = await smartAccountClient.installModule(emailRecovery);
   console.log("userOpHash", userOpHash);
 

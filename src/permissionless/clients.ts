@@ -4,9 +4,12 @@ import {
 } from "permissionless/clients/pimlico";
 import {
   createPublicClient,
+  createWalletClient,
   http,
   type Chain,
   type Client,
+  type Hex,
+  type PublicClient,
   type RpcSchema,
   type Transport,
 } from "viem";
@@ -25,11 +28,12 @@ import {
   erc7579Actions,
   type Erc7579Actions,
 } from "permissionless/actions/erc7579";
-import { baseSepolia } from "viem/chains";
+import { sepolia } from "viem/chains";
+import { eip7702Actions } from "viem/experimental";
 
-export const publicClient = createPublicClient({
+export const publicClient: PublicClient = createPublicClient({
   transport: http(config.rpcUrl),
-  chain: baseSepolia,
+  chain: sepolia,
 });
 
 export const pimlicoClient: PimlicoClient = createPimlicoClient({
@@ -38,15 +42,23 @@ export const pimlicoClient: PimlicoClient = createPimlicoClient({
     address: entryPoint07Address,
     version: "0.7",
   },
-  chain: baseSepolia,
+  chain: sepolia,
 });
 
 export const owner = privateKeyToAccount(config.ownerPrivateKey);
+export const eoaAccount = privateKeyToAccount(config.eoaPrivateKey);
+
+export const walletClient = createWalletClient({
+  account: eoaAccount,
+  chain: sepolia,
+  transport: http(config.rpcUrl),
+}).extend(eip7702Actions());
 
 export const getSafeAccount = async (): Promise<
   SmartAccount<SafeSmartAccountImplementation>
 > => {
   return await toSafeSmartAccount({
+    address: eoaAccount.address,
     client: publicClient,
     owners: [owner],
     version: "1.4.1",
@@ -54,11 +66,10 @@ export const getSafeAccount = async (): Promise<
       address: entryPoint07Address,
       version: "0.7",
     },
-    safe4337ModuleAddress: config.addresses.safe4337ModuleAddress,
-    erc7579LaunchpadAddress: config.addresses.erc7569LaunchpadAddress,
+    safe4337ModuleAddress: config.addresses.safe7579AdaptorAddress,
+    erc7579LaunchpadAddress: config.addresses.erc7579LaunchpadAddress,
     attesters: [config.addresses.attestor],
     attestersThreshold: 1,
-    saltNonce: config.saltNonce,
   });
 };
 
@@ -68,7 +79,7 @@ export const getSmartAccountClient = async (): Promise<
 > => {
   return createSmartAccountClient({
     account: await getSafeAccount(),
-    chain: baseSepolia,
+    chain: sepolia,
     bundlerTransport: http(config.bundlerUrl),
     paymaster: pimlicoClient,
     userOperation: {
