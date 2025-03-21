@@ -1,6 +1,6 @@
 # ZK Email Recovery Module example scripts
 
-This repository contains example scripts for the ZK Email Recovery Module used with a Safe account on Base Sepolia. There are 4 main scripts that should be run in order to complete the recovery module e2e flow.
+This repository contains example scripts for the ZK Email Recovery Module used with a Safe account on Base Sepolia. You can setup your Safe account [here](https://app.safe.global/) and you should select the Base Sepolia network. There are 4 main scripts that should be run in order to complete the recovery module e2e flow.
 
 **You can either run the scripts via permissionless, or ModuleSDk.**
 
@@ -16,7 +16,7 @@ yarn
 cp .env.example .env
 ```
 
-For `ACCOUNT_CODE` and `NEW_OWNER_ADDRESS` you can use the helper scripts
+For `ACCOUNT_CODE` and `NEW_OWNER_ADDRESS` you can use the [helper scripts](#helper-scripts)
 
 ## Scripts
 
@@ -38,7 +38,7 @@ yarn module-sdk-install-module
 
 `2_handleAcceptance.ts` - Handle acceptance is essentially a validation step that must be executed before a guardian can be used. Handle acceptance only needs to be called once for each guardian. This step is used to confirm directly with each guardian that they consent to be a guardian. This is important to ensure there are no typos when entering a guardian email in frontends, and that the guardian is in control of the specific email address. This prevents broken recovery setups down the line.
 
-_**Note:** Once you run the handle acceptance script, your configured guardian will recieve an email which must be replied to with the single command "**Confirm**" to confirm their acceptance._
+_**Note:** Once you run the handle acceptance script, your configured guardian will receive an email which must be replied to with the single command "**Confirm**" to confirm their acceptance. If you can't find the email, check your spam folder._
 
 ```bash
 # Permissionless
@@ -52,7 +52,7 @@ yarn module-sdk-handle-acceptance
 
 `3_handleRecovery.ts` - Handle recovery is the script that is used to initiate a recovery request. In between steps 2 and 3 is where the account owner has lost their private key/phone. Handle recovery is called for each configured and accepted guardian until the threshold is met.
 
-_**Note:** Once you run the handle recovery script, your configured guardian will recieve an email which must be replied to with the single command "**Confirm**" to confirm they approve the recovery request._
+_**Note:** Once you run the handle recovery script, your configured guardian will receive an email which must be replied to with the single command "**Confirm**" to confirm they approve the recovery request._
 
 ```bash
 # Permissionless
