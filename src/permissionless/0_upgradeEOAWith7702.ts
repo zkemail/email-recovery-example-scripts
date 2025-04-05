@@ -20,7 +20,7 @@ const upgradeEOAWith7702 = async () => {
   // This will enable the 7579 adaptor to be used with this safe on setup.
   const setupData = getSafeLaunchpadSetupData();
 
-  const fallbackHandler = config.addresses.safe7579AdaptorAddress;
+  const fallbackHandler = config.addresses.safe7579ModuleAddress; // Safe 7579 Adaptor address
   const paymentToken = zeroAddress;
   const paymentValue = 0n;
   const paymentReceiver = zeroAddress;

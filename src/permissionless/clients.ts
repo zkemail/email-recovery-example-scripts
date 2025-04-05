@@ -66,7 +66,7 @@ export const getSafeAccount = async (): Promise<
       address: entryPoint07Address,
       version: "0.7",
     },
-    safe4337ModuleAddress: config.addresses.safe7579AdaptorAddress,
+    safe4337ModuleAddress: config.addresses.safe4337ModuleAddress,
     erc7579LaunchpadAddress: config.addresses.erc7579LaunchpadAddress,
     attesters: [config.addresses.attestor],
     attestersThreshold: 1,

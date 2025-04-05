@@ -57,6 +57,7 @@ const installModule = async () => {
     chainId: baseSepolia.id,
   });
 
+  // Overriding the default addres of the recovery module
   emailRecovery.address = config.addresses.universalEmailRecoveryModule;
   emailRecovery.module = config.addresses.universalEmailRecoveryModule;
 
