@@ -52,7 +52,7 @@ type Config = {
   addresses: {
     universalEmailRecoveryModule: Address;
     safe4337ModuleAddress: Address;
-    safe7579ModuleAddress: Address;
+    safe7579AdaptorAddress: Address;
     erc7579LaunchpadAddress: Address;
     attestor: Address;
     safeSingletonAddress: Address;
@@ -76,7 +76,7 @@ const config: Config = {
   addresses: {
     universalEmailRecoveryModule: "0x636632FA22052d2a4Fb6e3Bab84551B620b9C1F9",
     safe4337ModuleAddress: "0x7579EE8307284F293B1927136486880611F20002", // Safe 4337 Module address is same as Safe 7579 Adaptor address in this example
-    safe7579ModuleAddress: "0x7579EE8307284F293B1927136486880611F20002",
+    safe7579AdaptorAddress: "0x7579EE8307284F293B1927136486880611F20002",
     erc7579LaunchpadAddress: "0x7579011aB74c46090561ea277Ba79D510c6C00ff",
     attestor: "0xA4C777199658a41688E9488c4EcbD7a2925Cc23A",
     safeSingletonAddress: "0x41675c099f32341bf84bfc5382af534df5c7461a",

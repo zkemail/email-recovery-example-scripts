@@ -21,7 +21,7 @@ const upgradeEOAWith7702 = async () => {
   const signerThreshold = 1n;
   const setupAddress = config.addresses.erc7579LaunchpadAddress;
   const setupData = getModuleSDKSafeLaunchpadSetupData(ownableValidator);
-  const fallbackHandler = config.addresses.safe7579ModuleAddress; // Safe 7579 Adaptor address
+  const fallbackHandler = config.addresses.safe7579AdaptorAddress; // Safe 7579 Adaptor address
   const paymentToken = zeroAddress;
   const paymentValue = 0n;
   const paymentReceiver = zeroAddress;
